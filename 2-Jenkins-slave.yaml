@@ -1,0 +1,50 @@
+###########  This playbook is used to install java on Jenkins slave 
+---
+- hosts: jenkins-slave # all
+  become: true
+  vars: 
+    user_name: nagarajckt333
+  tasks:
+  - name: Update ubuntu apt_repository
+    apt: 
+      update_cache: yes
+      cache_valid_time: 3600
+  - name: Install java 
+  # apt install openjdk-17-jre
+    apt: #ansible.builtin.apt:
+      name: openjdk-17-jre
+      update_cache: yes
+  - name: Create /home/{{ user_name }}/jenkins folder
+    file:
+      path: /home/{{ user_name }}/jenkins
+      state: directory
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+      recurse: yes
+  - name: Download  Mavan Package
+    get_url:
+      url: https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
+      dest: /opt
+  - name: Extract the maven package
+    unarchive:
+      src: apache-maven-3.8.8-bin.tar.gz
+      dest: /opt/
+      remote_src: yes     
+  - name: Download Openjdk 17
+    get_url:
+      url: https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
+      dest: /opt/
+  - name: Extract openjdk
+    unarchive: 
+      src: openjdk-17.0.2_linux-x64_bin.tar.gz
+      dest: /opt/
+      remote_src: yes
+  - name: Move to Openjdk 17
+    command: mv /opt/jdk-17.0.2 /opt/jdk-17    
+    
+      
+
+
+
+
+

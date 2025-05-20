@@ -1,0 +1,14 @@
+[jenkins-master]
+10.2.0.2
+[jenkins-master:vars]
+ansible_user=nagarajckt333
+ansible_ssh_private_file=/home/nagarajckt333/ssh-key
+
+
+
+[jenkins-slave]
+10.2.0.3
+[jenkins-slave:vars]
+ansible_user=nagarajckt333
+ansible_ssh_private_file=/home/nagarajckt333/ssh-key
+
